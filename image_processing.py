@@ -669,3 +669,88 @@ class ImageProcessor:
         image_filtered = np.clip(image_filtered, 0, 255).astype(np.uint8)
         
         return image_filtered
+    
+    @staticmethod
+    def ideal_highpass_filter(image: np.ndarray, cutoff_frequency: int) -> np.ndarray:
+        """
+        Bài 12.1: Ideal High-pass Filter in frequency domain
+        Uses H_ideal_high = 1 - H_ideal_low to preserve edges and details
+        
+        Args:
+            image: Input grayscale image
+            cutoff_frequency: Cutoff frequency (radius) - blocks frequencies below this
+            
+        Returns:
+            Filtered image with enhanced edges
+        """
+        # Get image dimensions
+        rows, cols = image.shape
+        crow, ccol = rows // 2, cols // 2
+        
+        # Create ideal high-pass filter mask (1 - low-pass mask)
+        mask = np.ones((rows, cols), dtype=np.float64)
+        y, x = np.ogrid[:rows, :cols]
+        distance = np.sqrt((x - ccol)**2 + (y - crow)**2)
+        mask[distance <= cutoff_frequency] = 0  # Block low frequencies
+        
+        # Apply Fourier transform
+        f_transform = np.fft.fft2(image)
+        f_shift = np.fft.fftshift(f_transform)
+        
+        # Apply filter in frequency domain
+        f_filtered = f_shift * mask
+        
+        # Inverse Fourier transform
+        f_ishift = np.fft.ifftshift(f_filtered)
+        image_filtered = np.fft.ifft2(f_ishift)
+        image_filtered = np.abs(image_filtered)
+        
+        # Clip and convert
+        image_filtered = np.clip(image_filtered, 0, 255).astype(np.uint8)
+        
+        return image_filtered
+    
+    @staticmethod
+    def butterworth_highpass_filter(image: np.ndarray, D0: int, n: int = 2) -> np.ndarray:
+        """
+        Bài 12.2: Butterworth High-pass Filter in frequency domain
+        Smoother transition than ideal filter, reduces ringing artifacts
+        H(u,v) = 1 / (1 + (D0/D(u,v))^(2n))
+        
+        Args:
+            image: Input grayscale image
+            D0: Cutoff frequency (radius)
+            n: Order of the filter (higher = sharper transition)
+            
+        Returns:
+            Filtered image with enhanced edges (smoother than ideal)
+        """
+        # Get image dimensions
+        rows, cols = image.shape
+        crow, ccol = rows // 2, cols // 2
+        
+        # Create Butterworth high-pass filter mask
+        y, x = np.ogrid[:rows, :cols]
+        distance = np.sqrt((x - ccol)**2 + (y - crow)**2)
+        
+        # Avoid division by zero
+        mask = np.zeros((rows, cols), dtype=np.float64)
+        non_zero = distance > 0
+        mask[non_zero] = 1 / (1 + (D0 / distance[non_zero])**(2 * n))
+        
+        # Apply Fourier transform
+        f_transform = np.fft.fft2(image)
+        f_shift = np.fft.fftshift(f_transform)
+        
+        # Apply filter in frequency domain
+        f_filtered = f_shift * mask
+        
+        # Inverse Fourier transform
+        f_ishift = np.fft.ifftshift(f_filtered)
+        image_filtered = np.fft.ifft2(f_ishift)
+        image_filtered = np.abs(image_filtered)
+        
+        # Clip and convert
+        image_filtered = np.clip(image_filtered, 0, 255).astype(np.uint8)
+        
+        return image_filtered

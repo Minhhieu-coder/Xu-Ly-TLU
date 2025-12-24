@@ -1,9 +1,9 @@
 """
-Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-11
-Comprehensive Image Processing Application - Exercises 1-11
+Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12
+Comprehensive Image Processing Application - Exercises 1-12
 
 Tác giả: Minhhieu-coder
-Tích hợp tất cả các chức năng từ Bài 1 đến Bài 11
+Tích hợp tất cả các chức năng từ Bài 1 đến Bài 12
 """
 
 import tkinter as tk
@@ -21,14 +21,14 @@ from image_processing import ImageProcessor
 
 class ComprehensiveImageApp:
     """
-    Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-11
+    Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-12
     
-    Comprehensive Image Processing Application integrating all exercises 1-11.
+    Comprehensive Image Processing Application integrating all exercises 1-12.
     Provides a unified GUI for all image processing operations including:
     - Basic conversions (grayscale, binary, channel split)
     - Contrast stretching and histogram processing
     - Noise removal and edge detection
-    - Fourier transforms and frequency domain filtering
+    - Fourier transforms and frequency domain filtering (low-pass and high-pass)
     """
     
     # Constants
@@ -37,7 +37,7 @@ class ComprehensiveImageApp:
     def __init__(self, root):
         """Khởi tạo ứng dụng"""
         self.root = root
-        self.root.title("Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-11")
+        self.root.title("Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12")
         self.root.geometry("1600x900")
         
         # Biến lưu trữ ảnh
@@ -88,6 +88,9 @@ class ComprehensiveImageApp:
         
         # Bài 10-11: Fourier Transform and Frequency Filters
         self.create_bai10_11_tab()
+        
+        # Bài 12: High-Pass Filters
+        self.create_bai12_tab()
         
         # Right panel - Display
         right_panel = ttk.Frame(main_frame)
@@ -295,6 +298,75 @@ class ComprehensiveImageApp:
         
         ttk.Button(scrollable_frame, text="Gaussian Low-pass Filter", 
                   command=self.gaussian_lowpass, width=28).pack(pady=2)
+    
+    def create_bai12_tab(self):
+        """Tạo tab cho Bài 12: High-Pass Filters"""
+        tab = ttk.Frame(self.notebook)
+        self.notebook.add(tab, text="Bài 12: High-Pass")
+        
+        # Scrollable frame
+        canvas = tk.Canvas(tab)
+        scrollbar = ttk.Scrollbar(tab, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Bài 12.1: Ideal High-pass
+        ttk.Label(scrollable_frame, text="Bài 12.1: Ideal High-pass Filter", 
+                 font=("Arial", 10, "bold")).pack(pady=5)
+        
+        ttk.Label(scrollable_frame, text="Cutoff Radius D0:").pack(pady=(5, 0))
+        self.ideal_hp_cutoff = tk.IntVar(value=30)
+        ideal_hp_slider = ttk.Scale(scrollable_frame, from_=10, to=100, 
+                                    variable=self.ideal_hp_cutoff, orient=tk.HORIZONTAL)
+        ideal_hp_slider.pack(fill=tk.X, padx=10, pady=2)
+        self.ideal_hp_label = ttk.Label(scrollable_frame, text="D0: 30")
+        self.ideal_hp_label.pack()
+        self.ideal_hp_cutoff.trace_add("write", self.update_ideal_hp_label)
+        
+        ttk.Button(scrollable_frame, text="Apply Ideal High-pass", 
+                  command=self.ideal_highpass, width=28).pack(pady=2)
+        
+        # Bài 12.2: Butterworth High-pass
+        ttk.Label(scrollable_frame, text="Bài 12.2: Butterworth High-pass Filter", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Label(scrollable_frame, text="Cutoff Frequency D0:").pack(pady=(5, 0))
+        self.butter_hp_d0 = tk.IntVar(value=30)
+        butter_d0_slider = ttk.Scale(scrollable_frame, from_=10, to=100, 
+                                     variable=self.butter_hp_d0, orient=tk.HORIZONTAL)
+        butter_d0_slider.pack(fill=tk.X, padx=10, pady=2)
+        self.butter_hp_d0_label = ttk.Label(scrollable_frame, text="D0: 30")
+        self.butter_hp_d0_label.pack()
+        self.butter_hp_d0.trace_add("write", self.update_butter_hp_d0_label)
+        
+        ttk.Label(scrollable_frame, text="Order (n):").pack(pady=(10, 0))
+        self.butter_hp_n = tk.IntVar(value=2)
+        butter_n_slider = ttk.Scale(scrollable_frame, from_=1, to=10, 
+                                    variable=self.butter_hp_n, orient=tk.HORIZONTAL)
+        butter_n_slider.pack(fill=tk.X, padx=10, pady=2)
+        self.butter_hp_n_label = ttk.Label(scrollable_frame, text="n: 2")
+        self.butter_hp_n_label.pack()
+        self.butter_hp_n.trace_add("write", self.update_butter_hp_n_label)
+        
+        ttk.Button(scrollable_frame, text="Apply Butterworth High-pass", 
+                  command=self.butterworth_highpass, width=28).pack(pady=2)
+        
+        # Info label
+        info_text = ("High-pass filters enhance edges and details.\n"
+                    "Butterworth provides smoother transition,\n"
+                    "reducing ringing artifacts vs. Ideal filter.")
+        ttk.Label(scrollable_frame, text=info_text, font=("Arial", 8), 
+                 foreground="gray").pack(pady=(10, 5))
     
     # ===== File Operations =====
     
@@ -884,6 +956,54 @@ class ComprehensiveImageApp:
             self.processed_image = result
             self.display_image(result)
             self.status_label.config(text=f"Gaussian Low-pass (sigma={sigma:.1f})")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    # ===== Bài 12 Methods =====
+    
+    def update_ideal_hp_label(self, *args):
+        """Cập nhật label cho Ideal High-pass cutoff"""
+        val = self.ideal_hp_cutoff.get()
+        self.ideal_hp_label.config(text=f"D0: {val}")
+    
+    def update_butter_hp_d0_label(self, *args):
+        """Cập nhật label cho Butterworth High-pass D0"""
+        val = self.butter_hp_d0.get()
+        self.butter_hp_d0_label.config(text=f"D0: {val}")
+    
+    def update_butter_hp_n_label(self, *args):
+        """Cập nhật label cho Butterworth High-pass n"""
+        val = self.butter_hp_n.get()
+        self.butter_hp_n_label.config(text=f"n: {val}")
+    
+    def ideal_highpass(self):
+        """Bài 12.1: Ideal high-pass filter"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            cutoff = self.ideal_hp_cutoff.get()
+            result = ImageProcessor.ideal_highpass_filter(self.processed_image, cutoff)
+            self.processed_image = result
+            self.display_image(result)
+            self.status_label.config(text=f"Ideal High-pass (D0={cutoff})")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def butterworth_highpass(self):
+        """Bài 12.2: Butterworth high-pass filter"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            D0 = self.butter_hp_d0.get()
+            n = self.butter_hp_n.get()
+            result = ImageProcessor.butterworth_highpass_filter(self.processed_image, D0, n)
+            self.processed_image = result
+            self.display_image(result)
+            self.status_label.config(text=f"Butterworth High-pass (D0={D0}, n={n})")
         except Exception as e:
             messagebox.showerror("Lỗi", str(e))
 
