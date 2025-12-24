@@ -1,11 +1,14 @@
-"""
-Test script to create sample images and verify image processing functions
-"""
-
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 import os
 from image_processing import ImageProcessor
+
+
+# Default noise probabilities for salt and pepper
+DEFAULT_SALT_PROBABILITY = 0.05
+DEFAULT_PEPPER_PROBABILITY = 0.05
 
 
 def create_sample_images():
@@ -46,7 +49,9 @@ def create_sample_images():
     # 5. Create a noisy image
     base_img = np.ones((256, 256), dtype=np.uint8) * 128
     cv2.circle(base_img, (128, 128), 60, 200, 2)
-    noisy_img = ImageProcessor.add_salt_pepper_noise(base_img, 0.05, 0.05)
+    noisy_img = ImageProcessor.add_salt_pepper_noise(
+        base_img, DEFAULT_SALT_PROBABILITY, DEFAULT_PEPPER_PROBABILITY
+    )
     cv2.imwrite('sample_images/noisy_circle.png', noisy_img)
     print("Created: noisy_circle.png")
     

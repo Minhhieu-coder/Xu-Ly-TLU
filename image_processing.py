@@ -140,9 +140,16 @@ class ImageProcessor:
         # Calculate CDF (Cumulative Distribution Function)
         cdf = hist.cumsum()
         
+        # Mask out zero values in CDF
+        cdf_masked = np.ma.masked_equal(cdf, 0)
+        
+        # Check if image has uniform intensity (only one unique value)
+        if cdf_masked.max() == cdf_masked.min() or image.max() == image.min():
+            return image.copy(), hist
+        
         # Normalize CDF to [0, 255]
-        cdf_normalized = (cdf - cdf.min()) * 255 / (cdf.max() - cdf.min())
-        cdf_normalized = cdf_normalized.astype(np.uint8)
+        cdf_normalized = (cdf_masked - cdf_masked.min()) * 255 / (cdf_masked.max() - cdf_masked.min())
+        cdf_normalized = np.ma.filled(cdf_normalized, 0).astype(np.uint8)
         
         # Map the pixel values using CDF
         equalized = cdf_normalized[image.flatten()]

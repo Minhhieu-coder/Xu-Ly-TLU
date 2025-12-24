@@ -16,6 +16,11 @@ import os
 from image_processing import ImageProcessor
 
 
+# Constants for histogram matching
+GAUSSIAN_REFERENCE_MEAN = 128
+GAUSSIAN_REFERENCE_STD = 50
+
+
 class ImageProcessingApp:
     """Main GUI application for image processing"""
     
@@ -331,7 +336,8 @@ class ImageProcessingApp:
         try:
             # For demonstration, create a reference histogram (bell curve)
             x = np.arange(256)
-            reference_hist = np.exp(-((x - 128) ** 2) / (2 * 50 ** 2))
+            reference_hist = np.exp(-((x - GAUSSIAN_REFERENCE_MEAN) ** 2) / 
+                                    (2 * GAUSSIAN_REFERENCE_STD ** 2))
             reference_hist = (reference_hist / reference_hist.sum() * 
                             self.processed_image.size).astype(np.uint64)
             
