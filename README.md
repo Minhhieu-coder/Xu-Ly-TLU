@@ -6,17 +6,17 @@
 
 ## 📝 Tổng quan / Overview
 
-Ứng dụng xử lý ảnh với giao diện đồ họa (GUI), tích hợp **đầy đủ** tất cả chức năng từ **Bài tập 1-11**:
+Ứng dụng xử lý ảnh với giao diện đồ họa (GUI), tích hợp **đầy đủ** tất cả chức năng từ **Bài tập 1-12**:
 - Chuyển đổi ảnh cơ bản (xám, nhị phân, tách kênh)
 - Kéo dãn tương phản và xử lý histogram
 - Lọc nhiễu và dò biên
-- Biến đổi Fourier và lọc tần số
+- Biến đổi Fourier và lọc tần số (thông thấp & thông cao)
 
-A comprehensive image processing application with GUI, integrating **all features** from **Exercises 1-11**:
+A comprehensive image processing application with GUI, integrating **all features** from **Exercises 1-12**:
 - Basic image conversions (grayscale, binary, channel splitting)
 - Contrast stretching and histogram processing
 - Noise filtering and edge detection
-- Fourier transform and frequency domain filtering
+- Fourier transform and frequency domain filtering (low-pass & high-pass)
 
 ## 🚀 Quick Start
 
@@ -64,11 +64,17 @@ python start.py
 - LoG (Laplacian of Gaussian)
 - Image Sharpening
 
-### ✅ Bài 10-11: Fourier Transform
+### ✅ Bài 10-11: Fourier Transform & Low-Pass
 - FFT & IFFT
 - Magnitude Spectrum
 - Ideal Low-pass Filter
 - Gaussian Low-pass Filter
+
+### ✅ Bài 12: High-Pass Filters ⭐ NEW
+- Ideal High-pass Filter (D0: 10-100)
+- Butterworth High-pass Filter (D0: 10-100, n: 1-10)
+- Edge enhancement
+- Detail preservation
 
 ## 📚 Documentation
 
@@ -80,13 +86,16 @@ python start.py
 ### Hướng dẫn Riêng / Individual Guides
 - **[HUONG_DAN.md](HUONG_DAN.md)** - Hướng dẫn Bài 1-3
 - **[USAGE_GUIDE.md](USAGE_GUIDE.md)** - Hướng dẫn Bài 4-9
+- **[BAI12_HUONG_DAN.md](BAI12_HUONG_DAN.md)** ⭐ - Hướng dẫn Bài 12 (High-Pass Filters)
 
 ## 🗂️ Cấu trúc / Structure
 
 ```
-comprehensive_app.py     ⭐ Main app (Bài 1-11)
+comprehensive_app.py     ⭐ Main app (Bài 1-12)
 image_processing.py      Core algorithms
 start.py                 Quick start menu
+test_highpass.py         Test Bài 12
+demo_highpass.py         Demo Bài 12
 ```
 
 ## 🎯 Workflows
@@ -106,12 +115,22 @@ Tải ảnh → Median Filter 3×3 → Lưu
 Tải ảnh → Sobel → Lưu
 ```
 
+### 4. Làm nổi cạnh (High-pass) ⭐ NEW
+```
+Tải ảnh → Butterworth High-pass (D0=30, n=2) → Lưu
+```
+
 ## 🧪 Testing
 
 ```bash
+python test_highpass.py       # Test High-Pass (Bài 12) ⭐ NEW
 python test_fourier.py        # Test Fourier (Bài 10-11)
 python test_processing.py     # Test Bài 4-9
 python create_test_images.py  # Generate samples
+
+# Demo
+python demo_highpass.py       # Visual demo Bài 12 ⭐ NEW
+python example_bai12.py       # Simple example Bài 12 ⭐ NEW
 ```
 
 ## 📊 Performance
