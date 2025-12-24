@@ -20,7 +20,19 @@ from image_processing import ImageProcessor
 
 
 class ComprehensiveImageApp:
-    """Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-11"""
+    """
+    Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-11
+    
+    Comprehensive Image Processing Application integrating all exercises 1-11.
+    Provides a unified GUI for all image processing operations including:
+    - Basic conversions (grayscale, binary, channel split)
+    - Contrast stretching and histogram processing
+    - Noise removal and edge detection
+    - Fourier transforms and frequency domain filtering
+    """
+    
+    # Constants
+    MATRIX_DISPLAY_LIMIT = 50  # Maximum rows/cols to display in matrix view
     
     def __init__(self, root):
         """Khởi tạo ứng dụng"""
@@ -493,9 +505,10 @@ class ComprehensiveImageApp:
             self.info_text.insert(tk.END, f"Kiểu: {self.original_gray.dtype}\n\n")
             
             # Show limited matrix
-            if self.original_gray.shape[0] > 50 or self.original_gray.shape[1] > 50:
-                self.info_text.insert(tk.END, f"Ma trận lớn, hiển thị 50x50 đầu:\n\n")
-                display = self.original_gray[:50, :50]
+            limit = self.MATRIX_DISPLAY_LIMIT
+            if self.original_gray.shape[0] > limit or self.original_gray.shape[1] > limit:
+                self.info_text.insert(tk.END, f"Ma trận lớn, hiển thị {limit}x{limit} đầu:\n\n")
+                display = self.original_gray[:limit, :limit]
             else:
                 display = self.original_gray
             

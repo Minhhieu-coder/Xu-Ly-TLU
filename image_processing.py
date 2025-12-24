@@ -580,8 +580,15 @@ class ImageProcessor:
         magnitude_display = np.log1p(magnitude)
         
         # Normalize to [0, 255]
-        magnitude_display = (magnitude_display - magnitude_display.min()) / \
-                           (magnitude_display.max() - magnitude_display.min()) * 255
+        min_val = magnitude_display.min()
+        max_val = magnitude_display.max()
+        
+        if max_val > min_val:
+            magnitude_display = (magnitude_display - min_val) / (max_val - min_val) * 255
+        else:
+            # Handle uniform images
+            magnitude_display = np.zeros_like(magnitude_display)
+        
         magnitude_display = magnitude_display.astype(np.uint8)
         
         return magnitude_display
