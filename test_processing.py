@@ -6,7 +6,9 @@ import os
 from image_processing import ImageProcessor
 
 
-# Default noise probabilities for salt and pepper
+# Default noise probabilities for test images (higher than method defaults for visibility)
+# Note: These are set higher than add_salt_pepper_noise defaults (0.02) to make 
+# test images clearly show noise for filter comparison
 DEFAULT_SALT_PROBABILITY = 0.05
 DEFAULT_PEPPER_PROBABILITY = 0.05
 

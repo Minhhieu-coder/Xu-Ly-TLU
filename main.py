@@ -177,12 +177,11 @@ class ImageProcessingApp:
         else:
             pil_image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
         
-        # Resize to fit canvas
-        canvas_width = self.canvas.winfo_width()
-        canvas_height = self.canvas.winfo_height()
+        # Resize to fit canvas (with minimum size check)
+        canvas_width = max(self.canvas.winfo_width(), 100)
+        canvas_height = max(self.canvas.winfo_height(), 100)
         
-        if canvas_width > 1 and canvas_height > 1:
-            pil_image.thumbnail((canvas_width, canvas_height), Image.Resampling.LANCZOS)
+        pil_image.thumbnail((canvas_width, canvas_height), Image.Resampling.LANCZOS)
         
         # Convert to PhotoImage and display
         self.current_display = ImageTk.PhotoImage(pil_image)

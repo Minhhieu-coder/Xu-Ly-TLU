@@ -137,15 +137,15 @@ class ImageProcessor:
         # Calculate histogram
         hist = ImageProcessor.calculate_histogram(image)
         
+        # Check if image has uniform intensity (only one unique value)
+        if image.max() == image.min():
+            return image.copy(), hist
+        
         # Calculate CDF (Cumulative Distribution Function)
         cdf = hist.cumsum()
         
         # Mask out zero values in CDF
         cdf_masked = np.ma.masked_equal(cdf, 0)
-        
-        # Check if image has uniform intensity (only one unique value)
-        if cdf_masked.max() == cdf_masked.min() or image.max() == image.min():
-            return image.copy(), hist
         
         # Normalize CDF to [0, 255]
         cdf_normalized = (cdf_masked - cdf_masked.min()) * 255 / (cdf_masked.max() - cdf_masked.min())
