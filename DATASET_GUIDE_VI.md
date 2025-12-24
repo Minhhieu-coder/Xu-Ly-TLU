@@ -119,6 +119,7 @@ plt.show()
 
 ```python
 import cv2
+import numpy as np
 
 # Tải ảnh
 img = cv2.imread('data/bean-leaf-lesions/train/bean_rust/image_001.jpg', 0)
@@ -128,7 +129,8 @@ sobelx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
 sobely = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
 
 # Kết hợp
-edges = cv2.sqrt(sobelx**2 + sobely**2)
+edges = np.sqrt(sobelx**2 + sobely**2)
+edges = np.uint8(edges / edges.max() * 255) if edges.max() > 0 else edges.astype(np.uint8)
 
 # Lưu kết quả
 cv2.imwrite('edges.jpg', edges)

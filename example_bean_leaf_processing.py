@@ -148,7 +148,8 @@ def process_single_image(image_path, output_dir):
         sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
         sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
         edges = np.sqrt(sobelx**2 + sobely**2)
-        edges = np.uint8(edges / edges.max() * 255)
+        # Prevent division by zero
+        edges = np.uint8(edges / edges.max() * 255) if edges.max() > 0 else edges.astype(np.uint8)
     
     cv2.imwrite(str(output_dir / f"{base_name}_edges.jpg"), edges)
     print(f"  ✓ Saved edge detection")
@@ -199,7 +200,8 @@ def create_visualization(image_paths, output_file):
         sobelx = cv2.Sobel(gray, cv2.CV_64F, 1, 0, ksize=3)
         sobely = cv2.Sobel(gray, cv2.CV_64F, 0, 1, ksize=3)
         edges = np.sqrt(sobelx**2 + sobely**2)
-        edges = np.uint8(edges / edges.max() * 255)
+        # Prevent division by zero
+        edges = np.uint8(edges / edges.max() * 255) if edges.max() > 0 else edges.astype(np.uint8)
         
         # Denoised
         denoised = cv2.medianBlur(gray, 5)
