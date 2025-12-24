@@ -7,6 +7,8 @@ Implements various image processing techniques including:
 - Convolution and noise removal (Bài 7)
 - Edge detection (Bài 8)
 - Laplacian edge detection and sharpening (Bài 9)
+- Fourier transforms (Bài 10)
+- Frequency domain filtering: low-pass and high-pass filters (Bài 11-12)
 """
 
 import numpy as np
@@ -736,7 +738,7 @@ class ImageProcessor:
         # Avoid division by zero
         mask = np.zeros((rows, cols), dtype=np.float64)
         non_zero = distance > 0
-        mask[non_zero] = 1 / (1 + (D0 / distance[non_zero])**(2 * n))
+        mask[non_zero] = 1 / (1 + np.power(D0 / distance[non_zero], 2 * n))
         
         # Apply Fourier transform
         f_transform = np.fft.fft2(image)
