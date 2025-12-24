@@ -19,11 +19,14 @@ from pathlib import Path
 
 def check_kaggle_installed():
     """Check if kaggle package is installed."""
-    try:
-        import kaggle
+    # First check if package is available without importing
+    result = subprocess.run([sys.executable, "-m", "pip", "show", "kaggle"], 
+                          capture_output=True, text=True)
+    
+    if result.returncode == 0:
         print("✓ Kaggle package is installed")
         return True
-    except ImportError:
+    else:
         print("✗ Kaggle package is not installed")
         print("  Install it with: pip install kaggle")
         return False
@@ -31,20 +34,24 @@ def check_kaggle_installed():
 
 def check_kaggle_credentials():
     """Check if Kaggle credentials are configured."""
-    kaggle_dir = Path.home() / '.kaggle'
-    kaggle_json = kaggle_dir / 'kaggle.json'
+    # Check multiple possible locations
+    kaggle_locations = [
+        Path.home() / '.kaggle' / 'kaggle.json',
+        Path.home() / '.config' / 'kaggle' / 'kaggle.json'
+    ]
     
-    if kaggle_json.exists():
-        print("✓ Kaggle credentials found")
-        return True
-    else:
-        print("✗ Kaggle credentials not found")
-        print("  Please set up your Kaggle API credentials:")
-        print("  1. Go to https://www.kaggle.com/account")
-        print("  2. Click 'Create New API Token'")
-        print("  3. Place kaggle.json in ~/.kaggle/")
-        print("  4. Run: chmod 600 ~/.kaggle/kaggle.json")
-        return False
+    for kaggle_json in kaggle_locations:
+        if kaggle_json.exists():
+            print(f"✓ Kaggle credentials found at {kaggle_json}")
+            return True
+    
+    print("✗ Kaggle credentials not found")
+    print("  Please set up your Kaggle API credentials:")
+    print("  1. Go to https://www.kaggle.com/account")
+    print("  2. Click 'Create New API Token'")
+    print("  3. Place kaggle.json in ~/.kaggle/ or ~/.config/kaggle/")
+    print("  4. Run: chmod 600 ~/.kaggle/kaggle.json")
+    return False
 
 
 def download_dataset():
