@@ -3,3 +3,7 @@ opencv-python>=4.5.0
 scipy>=1.7.0
 Pillow>=8.0.0
 matplotlib>=3.3.0
+
+# Optional: For downloading datasets from Kaggle
+# Uncomment if you want to download the Bean Leaf Lesions dataset
+# kaggle>=1.5.0

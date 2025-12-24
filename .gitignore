@@ -211,3 +211,16 @@ sample_images/
 demo_results/
 bai12_*.png
 output_*.png
+bean_leaf_processed/
+
+# Dataset files (large data files)
+# Ignore all data files but keep structure and documentation
+data/bean-leaf-lesions/train/
+data/bean-leaf-lesions/test/
+data/bean-leaf-lesions/validation/
+data/bean-leaf-lesions/*.zip
+data/bean-leaf-lesions/*.tar
+data/bean-leaf-lesions/*.gz
+data/**/*.jpg
+data/**/*.jpeg
+data/**/*.png
