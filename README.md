@@ -67,8 +67,8 @@ python download_dataset.py
 python example_bean_leaf_processing.py
 ```
 
-See **[data/README.md](data/README.md)** for detailed instructions.
-
+See **[data/README.md](data/README.md)** for detailed instructions (English).  
+See **[DATASET_GUIDE_VI.md](DATASET_GUIDE_VI.md)** for Vietnamese guide (Hướng dẫn tiếng Việt).
 
 
 ## ✨ Tính năng / Features
