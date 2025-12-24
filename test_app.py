@@ -5,6 +5,7 @@ Tests basic functionality without GUI display
 
 import sys
 import os
+import tempfile
 
 # Test imports
 print("Testing imports...")
@@ -99,7 +100,9 @@ print(f"✓ RGB channels separated: R={r.size}, G={g.size}, B={b.size}")
 
 # Test save functionality (save to temp)
 print("\nTesting save functionality...")
-temp_path = "/tmp/test_output.png"
+with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp_file:
+    temp_path = tmp_file.name
+
 test_image.save(temp_path)
 if os.path.exists(temp_path):
     print(f"✓ Image saved successfully to {temp_path}")
