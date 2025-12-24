@@ -515,3 +515,157 @@ class ImageProcessor:
         sharpened = np.clip(sharpened, 0, 255).astype(np.uint8)
         
         return sharpened
+    
+    @staticmethod
+    def fourier_transform(image: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Bài 10: Forward Fourier Transform (DFT)
+        
+        Args:
+            image: Input grayscale image
+            
+        Returns:
+            Tuple of (magnitude spectrum, phase spectrum)
+        """
+        # Apply FFT (faster than DFT)
+        f_transform = np.fft.fft2(image)
+        f_shift = np.fft.fftshift(f_transform)  # Shift zero frequency to center
+        
+        # Calculate magnitude and phase
+        magnitude = np.abs(f_shift)
+        phase = np.angle(f_shift)
+        
+        return magnitude, phase
+    
+    @staticmethod
+    def inverse_fourier_transform(magnitude: np.ndarray, 
+                                  phase: np.ndarray) -> np.ndarray:
+        """
+        Bài 10: Inverse Fourier Transform (IDFT)
+        
+        Args:
+            magnitude: Magnitude spectrum
+            phase: Phase spectrum
+            
+        Returns:
+            Reconstructed image
+        """
+        # Reconstruct complex spectrum
+        f_shift = magnitude * np.exp(1j * phase)
+        
+        # Inverse shift
+        f_transform = np.fft.ifftshift(f_shift)
+        
+        # Apply inverse FFT
+        image_reconstructed = np.fft.ifft2(f_transform)
+        image_reconstructed = np.abs(image_reconstructed)
+        
+        # Clip and convert
+        image_reconstructed = np.clip(image_reconstructed, 0, 255).astype(np.uint8)
+        
+        return image_reconstructed
+    
+    @staticmethod
+    def get_magnitude_spectrum_display(magnitude: np.ndarray) -> np.ndarray:
+        """
+        Convert magnitude spectrum for display (log scale)
+        
+        Args:
+            magnitude: Magnitude spectrum
+            
+        Returns:
+            Display-ready magnitude spectrum
+        """
+        # Use log scale for better visualization
+        magnitude_display = np.log1p(magnitude)
+        
+        # Normalize to [0, 255]
+        min_val = magnitude_display.min()
+        max_val = magnitude_display.max()
+        
+        if max_val > min_val:
+            magnitude_display = (magnitude_display - min_val) / (max_val - min_val) * 255
+        else:
+            # Handle uniform images
+            magnitude_display = np.zeros_like(magnitude_display)
+        
+        magnitude_display = magnitude_display.astype(np.uint8)
+        
+        return magnitude_display
+    
+    @staticmethod
+    def ideal_lowpass_filter(image: np.ndarray, cutoff_frequency: int) -> np.ndarray:
+        """
+        Bài 10-11: Ideal Low-pass Filter in frequency domain
+        
+        Args:
+            image: Input grayscale image
+            cutoff_frequency: Cutoff frequency (radius)
+            
+        Returns:
+            Filtered image
+        """
+        # Get image dimensions
+        rows, cols = image.shape
+        crow, ccol = rows // 2, cols // 2
+        
+        # Create ideal low-pass filter mask
+        mask = np.zeros((rows, cols), dtype=np.float64)
+        y, x = np.ogrid[:rows, :cols]
+        distance = np.sqrt((x - ccol)**2 + (y - crow)**2)
+        mask[distance <= cutoff_frequency] = 1
+        
+        # Apply Fourier transform
+        f_transform = np.fft.fft2(image)
+        f_shift = np.fft.fftshift(f_transform)
+        
+        # Apply filter in frequency domain
+        f_filtered = f_shift * mask
+        
+        # Inverse Fourier transform
+        f_ishift = np.fft.ifftshift(f_filtered)
+        image_filtered = np.fft.ifft2(f_ishift)
+        image_filtered = np.abs(image_filtered)
+        
+        # Clip and convert
+        image_filtered = np.clip(image_filtered, 0, 255).astype(np.uint8)
+        
+        return image_filtered
+    
+    @staticmethod
+    def gaussian_lowpass_filter(image: np.ndarray, sigma: float = 30.0) -> np.ndarray:
+        """
+        Bài 11: Gaussian Low-pass Filter in frequency domain
+        
+        Args:
+            image: Input grayscale image
+            sigma: Standard deviation for Gaussian filter
+            
+        Returns:
+            Filtered image
+        """
+        # Get image dimensions
+        rows, cols = image.shape
+        crow, ccol = rows // 2, cols // 2
+        
+        # Create Gaussian low-pass filter mask
+        y, x = np.ogrid[:rows, :cols]
+        distance_sq = (x - ccol)**2 + (y - crow)**2
+        mask = np.exp(-distance_sq / (2 * sigma**2))
+        
+        # Apply Fourier transform
+        f_transform = np.fft.fft2(image)
+        f_shift = np.fft.fftshift(f_transform)
+        
+        # Apply filter in frequency domain
+        f_filtered = f_shift * mask
+        
+        # Inverse Fourier transform
+        f_ishift = np.fft.ifftshift(f_filtered)
+        image_filtered = np.fft.ifft2(f_ishift)
+        image_filtered = np.abs(image_filtered)
+        
+        # Clip and convert
+        image_filtered = np.clip(image_filtered, 0, 255).astype(np.uint8)
+        
+        return image_filtered
