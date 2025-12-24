@@ -30,6 +30,10 @@ cd Xu-Ly-TLU
 # Install dependencies
 pip install numpy opencv-python pillow matplotlib scipy
 
+# (Optional) Download Bean Leaf dataset for practice
+pip install kaggle
+python download_dataset.py
+
 # Run comprehensive app (RECOMMENDED)
 python comprehensive_app.py
 ```
@@ -39,6 +43,33 @@ python comprehensive_app.py
 ```bash
 python start.py
 ```
+
+## 📊 Dataset / Bộ dữ liệu
+
+### Bean Leaf Lesions Classification Dataset ⭐ NEW
+
+This repository now includes support for the **Bean Leaf Lesions Classification** dataset from Kaggle!
+
+- **Source**: [Kaggle - Bean Leaf Lesions Classification](https://www.kaggle.com/datasets/marquis03/bean-leaf-lesions-classification)
+- **Categories**: Angular leaf spot, Bean rust, Healthy leaves
+- **Purpose**: Practice image processing techniques on real agricultural data
+
+#### Quick Download:
+```bash
+# Install Kaggle API
+pip install kaggle
+
+# Configure credentials (see data/README.md)
+# Then download:
+python download_dataset.py
+
+# Try example processing:
+python example_bean_leaf_processing.py
+```
+
+See **[data/README.md](data/README.md)** for detailed instructions (English).  
+See **[DATASET_GUIDE_VI.md](DATASET_GUIDE_VI.md)** for Vietnamese guide (Hướng dẫn tiếng Việt).
+
 
 ## ✨ Tính năng / Features
 
@@ -87,16 +118,22 @@ python start.py
 - **[HUONG_DAN.md](HUONG_DAN.md)** - Hướng dẫn Bài 1-3
 - **[USAGE_GUIDE.md](USAGE_GUIDE.md)** - Hướng dẫn Bài 4-9
 - **[BAI12_HUONG_DAN.md](BAI12_HUONG_DAN.md)** ⭐ - Hướng dẫn Bài 12 (High-Pass Filters)
+- **[data/README.md](data/README.md)** 📊 - Dataset guide (Bean Leaf Lesions)
 
 ## 🗂️ Cấu trúc / Structure
 
 ```
-comprehensive_app.py     ⭐ Main app (Bài 1-12)
-image_processing.py      Core algorithms
-start.py                 Quick start menu
-test_highpass.py         Test Bài 12
-demo_highpass.py         Demo Bài 12
+comprehensive_app.py              ⭐ Main app (Bài 1-12)
+image_processing.py               Core algorithms
+start.py                          Quick start menu
+test_highpass.py                  Test Bài 12
+demo_highpass.py                  Demo Bài 12
+download_dataset.py               ⭐ Dataset downloader
+example_bean_leaf_processing.py   ⭐ Dataset example
+data/                             📊 Datasets directory
+  └── README.md                   Dataset documentation
 ```
+
 
 ## 🎯 Workflows
 
