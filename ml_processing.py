@@ -6,6 +6,11 @@ Implements various ML techniques for image processing:
 - Simple image classification using KNN
 - Dimensionality reduction with PCA
 
+Note: This module uses custom implementations for educational purposes,
+demonstrating the underlying algorithms. These implementations are suitable
+for image processing tasks and work with numpy/opencv. For production use
+with larger datasets, consider using scikit-learn's optimized implementations.
+
 Bài tập Machine Learning - Xử lý ảnh
 Tác giả: Minhhieu-coder
 """
@@ -34,6 +39,8 @@ class MLImageProcessor:
         Returns:
             Tuple of (segmented image, cluster centers)
         """
+        import warnings
+        
         # Flatten image for clustering
         pixels = image.flatten().astype(np.float32)
         
@@ -41,6 +48,7 @@ class MLImageProcessor:
         np.random.seed(42)  # For reproducibility
         unique_vals = np.unique(pixels)
         if len(unique_vals) < k:
+            warnings.warn(f"Requested k={k} clusters but image only has {len(unique_vals)} unique values. Using k={len(unique_vals)} instead.")
             k = len(unique_vals)
         
         # Use random unique pixel values as initial centroids
