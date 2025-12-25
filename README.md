@@ -1,187 +1,98 @@
-# Ứng dụng Xử lý Ảnh Toàn diện - Comprehensive Image Processing Application
+# ĐỒ ÁN XỬ LÝ ẢNH SỐ - Đại học Thăng Long (TLU)
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)](PROJECT_COMPLETION_SUMMARY.md)
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)
 
-## 📝 Tổng quan / Overview
+## 📋 Tài liệu Nộp bài
 
-Ứng dụng xử lý ảnh với giao diện đồ họa (GUI), tích hợp **đầy đủ** tất cả chức năng từ **Bài tập 1-12** và **Machine Learning**:
-- Chuyển đổi ảnh cơ bản (xám, nhị phân, tách kênh)
-- Kéo dãn tương phản và xử lý histogram
-- Lọc nhiễu và dò biên
-- Biến đổi Fourier và lọc tần số (thông thấp & thông cao)
-- **Machine Learning**: Phân đoạn K-Means, trích xuất đặc trưng, phát hiện đối tượng
+| Tài liệu | Mô tả |
+|----------|-------|
+| **[BAO_CAO.md](BAO_CAO.md)** 📄 | Báo cáo đồ án đầy đủ |
+| **[PHAN_CONG_NHIEM_VU.md](PHAN_CONG_NHIEM_VU.md)** 👥 | Phân công nhiệm vụ thành viên |
+| **Source Code** 💻 | Mã nguồn trong repository |
 
-A comprehensive image processing application with GUI, integrating **all features** from **Exercises 1-12** and **Machine Learning**:
-- Basic image conversions (grayscale, binary, channel splitting)
-- Contrast stretching and histogram processing
-- Noise filtering and edge detection
-- Fourier transform and frequency domain filtering (low-pass & high-pass)
-- **Machine Learning**: K-Means segmentation, feature extraction, object detection
+---
 
-## 🚀 Quick Start
+## 📝 Tổng quan Dự án
 
-### Cài đặt / Installation
+Ứng dụng xử lý ảnh với giao diện đồ họa (GUI), tích hợp **đầy đủ** các chức năng từ **Bài tập 1-12** và **Machine Learning**:
+
+- **Bài 1-3**: Chuyển đổi ảnh cơ bản (xám, nhị phân, tách kênh)
+- **Bài 4-6**: Kéo dãn tương phản và xử lý histogram
+- **Bài 7-9**: Lọc nhiễu và dò biên
+- **Bài 10-11**: Biến đổi Fourier và lọc tần số thông thấp
+- **Bài 12**: Lọc tần số thông cao
+- **Machine Learning**: Phân đoạn K-Means, Otsu, trích xuất đặc trưng, phát hiện đối tượng
+
+## 🚀 Cài đặt và Chạy
 
 ```bash
-# Clone repository
+# 1. Clone repository
 git clone https://github.com/Minhhieu-coder/Xu-Ly-TLU.git
 cd Xu-Ly-TLU
 
-# Install dependencies
-pip install numpy opencv-python pillow matplotlib scipy scikit-learn
+# 2. Cài đặt dependencies
+pip install -r requirements.txt
 
-# Run comprehensive app (RECOMMENDED)
+# 3. Chạy ứng dụng
 python comprehensive_app.py
+
+# 4. Chạy tests
+python test_ml.py
+python test_processing.py
 ```
 
-### Hoặc sử dụng Menu / Or use Menu Launcher
-
-```bash
-python start.py
-```
-
-## ✨ Tính năng / Features
-
-### ✅ Bài 1-3: Chuyển đổi Cơ bản / Basic Conversions
-- Tải và hiển thị ảnh / Load and display images
-- Chuyển đổi ảnh xám / Grayscale conversion
-- Chuyển đổi nhị phân / Binary conversion (adjustable threshold)
-- Tách kênh RGB / RGB channel splitting
-- Kênh Alpha / Alpha channel (PNG)
-- Ma trận ảnh / Image matrix display
-
-### ✅ Bài 4-6: Contrast & Histogram
-- Kéo dãn tuyến tính / Linear contrast stretching
-- Type 1 & 2 Clipping
-- Cân bằng Histogram / Histogram equalization
-- Histogram Matching
-- CLAHE (Adaptive)
-
-### ✅ Bài 7-9: Filters & Edge Detection
-- Average & Median Filters (3×3, 5×5)
-- Sobel, Prewitt, Roberts, Kirsch
-- Laplacian (4 & 8 neighbor)
-- LoG (Laplacian of Gaussian)
-- Image Sharpening
-
-### ✅ Bài 10-11: Fourier Transform & Low-Pass
-- FFT & IFFT
-- Magnitude Spectrum
-- Ideal Low-pass Filter
-- Gaussian Low-pass Filter
-
-### ✅ Bài 12: High-Pass Filters
-- Ideal High-pass Filter (D0: 10-100)
-- Butterworth High-pass Filter (D0: 10-100, n: 1-10)
-- Edge enhancement
-- Detail preservation
-
-### ✅ Machine Learning 🤖 NEW
-- **K-Means Segmentation**: Phân đoạn ảnh thành K vùng / Segment image into K regions
-- **Otsu Thresholding**: Tự động tìm ngưỡng tối ưu / Automatic optimal threshold
-- **Adaptive Thresholding**: Ngưỡng cục bộ / Local thresholding
-- **Feature Extraction**: Trích xuất đặc trưng histogram, texture, thống kê / Extract histogram, texture, statistical features
-- **Object Detection**: Phát hiện và đếm đối tượng / Detect and count objects
-- **Morphological Operations**: Erosion, Dilation, Opening, Closing
-- **ML Edge Detection**: Phát hiện cạnh kiểu Canny / Canny-like edge detection
-
-## 📚 Documentation
-
-### Hướng dẫn Chính / Main Guides
-- **[COMPREHENSIVE_GUIDE.md](COMPREHENSIVE_GUIDE.md)** 📘 - Hướng dẫn chi tiết
-- **[QUICK_REFERENCE_COMPREHENSIVE.md](QUICK_REFERENCE_COMPREHENSIVE.md)** 🔖 - Quick reference
-- **[PROJECT_COMPLETION_SUMMARY.md](PROJECT_COMPLETION_SUMMARY.md)** ✅ - Tổng kết
-
-### Hướng dẫn Riêng / Individual Guides
-- **[HUONG_DAN.md](HUONG_DAN.md)** - Hướng dẫn Bài 1-3
-- **[USAGE_GUIDE.md](USAGE_GUIDE.md)** - Hướng dẫn Bài 4-9
-- **[BAI12_HUONG_DAN.md](BAI12_HUONG_DAN.md)** - Hướng dẫn Bài 12 (High-Pass Filters)
-
-## 🗂️ Cấu trúc / Structure
+## 🗂️ Cấu trúc Source Code
 
 ```
-comprehensive_app.py     ⭐ Main app (Bài 1-12 + ML)
-image_processing.py      Core image algorithms
-ml_processing.py         🤖 Machine Learning algorithms
-start.py                 Quick start menu
-test_ml.py               🧪 ML tests
-test_highpass.py         Test Bài 12
-demo_highpass.py         Demo Bài 12
+Xu-Ly-TLU/
+├── comprehensive_app.py      # ⭐ Ứng dụng GUI chính (Bài 1-12 + ML)
+├── image_processing.py       # Thuật toán xử lý ảnh core
+├── ml_processing.py          # Thuật toán Machine Learning
+├── requirements.txt          # Dependencies
+├── test_ml.py               # Test Machine Learning
+├── test_processing.py       # Test Image Processing
+├── sample_images/           # Ảnh mẫu
+├── BAO_CAO.md              # 📄 Báo cáo đồ án
+└── PHAN_CONG_NHIEM_VU.md   # 👥 Phân công nhiệm vụ
 ```
 
-## 🎯 Workflows
+## ✨ Tính năng Machine Learning
 
-### 1. Cải thiện ảnh tối
-```
-Tải ảnh → Kéo dãn tuyến tính → Cân bằng Histogram → Lưu
-```
+| Mô hình | Mô tả |
+|---------|-------|
+| **K-Means Segmentation** | Phân đoạn ảnh thành K vùng |
+| **Otsu Thresholding** | Tự động tìm ngưỡng tối ưu |
+| **Feature Extraction** | Trích xuất đặc trưng 29 chiều |
+| **Object Detection** | Phát hiện và đếm đối tượng |
+| **Morphological Ops** | Erosion, Dilation, Opening, Closing |
 
-### 2. Khử nhiễu
-```
-Tải ảnh → Median Filter 3×3 → Lưu
-```
+## 🧪 Kết quả Test
 
-### 3. Dò biên
 ```
-Tải ảnh → Sobel → Lưu
-```
-
-### 4. Làm nổi cạnh (High-pass)
-```
-Tải ảnh → Butterworth High-pass (D0=30, n=2) → Lưu
+✅ test_ml.py: All 9 tests passed
+✅ test_processing.py: All tests passed
+✅ test_fourier.py: All tests passed
+✅ test_highpass.py: All tests passed
 ```
 
-### 5. Phân đoạn ML 🤖 NEW
-```
-Tải ảnh → K-Means Segmentation (K=4) → Lưu
-```
+## 📊 Hiệu năng
 
-### 6. Phát hiện đối tượng 🤖 NEW
-```
-Tải ảnh → Detect Objects → Xem thông tin đối tượng
-```
-
-## 🧪 Testing
-
-```bash
-python test_ml.py             # Test Machine Learning 🤖 NEW
-python test_highpass.py       # Test High-Pass (Bài 12)
-python test_fourier.py        # Test Fourier (Bài 10-11)
-python test_processing.py     # Test Bài 4-9
-python create_test_images.py  # Generate samples
-
-# Demo
-python demo_highpass.py       # Visual demo Bài 12
-python example_bai12.py       # Simple example Bài 12
-```
-
-## 📊 Performance
-
-| Size | Speed |
-|------|-------|
-| 256×256 | ⚡ < 0.1s |
-| 512×512 | 🏃 < 0.5s |
-| 1024×1024 | 🚶 < 2s |
-
-## ✅ Quality
-
-- Code Review: ✅ Passed
-- Security Scan: ✅ 0 vulnerabilities
-- Tests: ✅ All passed
+| Kích thước ảnh | Thời gian xử lý |
+|----------------|-----------------|
+| 256×256 | < 0.1s |
+| 512×512 | < 0.5s |
+| 1024×1024 | < 2s |
 
 ## 📝 License
 
 MIT License
 
-## 👤 Author
+## 👥 Repository
 
-**Minhhieu-coder**
-- GitHub: [@Minhhieu-coder](https://github.com/Minhhieu-coder)
+**GitHub:** https://github.com/Minhhieu-coder/Xu-Ly-TLU
 
 ---
 
-**🎨 Happy Image Processing! 📸**
-
-See [COMPREHENSIVE_GUIDE.md](COMPREHENSIVE_GUIDE.md) for details
+**Xem chi tiết tại:** [BAO_CAO.md](BAO_CAO.md) | [PHAN_CONG_NHIEM_VU.md](PHAN_CONG_NHIEM_VU.md)
