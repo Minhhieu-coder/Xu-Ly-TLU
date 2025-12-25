@@ -88,7 +88,7 @@ image = cv2.imread('image.png')
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # Chuẩn hóa về [0, 255]
-normalized = np.clip(image, 0, 255).astype(np.uint8)
+normalized = np.clip(gray, 0, 255).astype(np.uint8)
 ```
 
 #### 2.2.2. Xử lý Kênh Màu

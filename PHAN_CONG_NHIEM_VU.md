@@ -10,12 +10,15 @@
 
 | STT | Họ và Tên | MSSV | Email | Vai trò |
 |-----|-----------|------|-------|---------|
-| 1 | [Tên thành viên 1] | [MSSV] | [Email] | Nhóm trưởng |
-| 2 | [Tên thành viên 2] | [MSSV] | [Email] | Thành viên |
-| 3 | [Tên thành viên 3] | [MSSV] | [Email] | Thành viên |
-| 4 | [Tên thành viên 4] | [MSSV] | [Email] | Thành viên |
+| 1 | [Tên thành viên 1] | [A12345] | [email@thanglong.edu.vn] | Nhóm trưởng |
+| 2 | [Tên thành viên 2] | [A12346] | [email@thanglong.edu.vn] | Thành viên |
+| 3 | [Tên thành viên 3] | [A12347] | [email@thanglong.edu.vn] | Thành viên |
+| 4 | [Tên thành viên 4] | [A12348] | [email@thanglong.edu.vn] | Thành viên |
 
-> **Lưu ý:** Vui lòng điền thông tin thành viên nhóm vào bảng trên.
+> **Hướng dẫn:** 
+> - Thay thế [Tên thành viên] bằng họ tên đầy đủ
+> - MSSV: Mã số sinh viên (ví dụ: A12345)
+> - Email: Địa chỉ email trường (ví dụ: abc@thanglong.edu.vn)
 
 ---
 
@@ -43,7 +46,9 @@
 | Tách kênh RGB | ✅ Hoàn thành | Hiển thị 3 kênh riêng biệt |
 | K-Means Segmentation | ✅ Hoàn thành | K=2-10 clusters |
 
-#### Mức độ tham gia: **[...]%**
+#### Mức độ tham gia: **[25]%**
+
+> **Hướng dẫn:** Điền % đóng góp thực tế (tổng 4 thành viên = 100%)
 
 ---
 
@@ -71,7 +76,7 @@
 | CLAHE | ✅ Hoàn thành | Adaptive equalization |
 | Otsu Thresholding | ✅ Hoàn thành | Tự động tìm ngưỡng tối ưu |
 
-#### Mức độ tham gia: **[...]%**
+#### Mức độ tham gia: **[25]%**
 
 ---
 
@@ -102,7 +107,7 @@
 | Laplacian | ✅ Hoàn thành | 4 và 8 neighbor |
 | Feature Extraction | ✅ Hoàn thành | 29 dimensions |
 
-#### Mức độ tham gia: **[...]%**
+#### Mức độ tham gia: **[25]%**
 
 ---
 
@@ -134,7 +139,7 @@
 | Object Detection | ✅ Hoàn thành | Bounding box + centroid |
 | Morphological Ops | ✅ Hoàn thành | 4 operations |
 
-#### Mức độ tham gia: **[...]%**
+#### Mức độ tham gia: **[25]%**
 
 ---
 
@@ -192,11 +197,13 @@
 
 | # | Ngày | Nội dung | Kết quả |
 |---|------|----------|---------|
-| 1 | [Ngày] | Phân công công việc | Đã thống nhất phân công |
-| 2 | [Ngày] | Review code Bài 1-6 | Đã hoàn thành |
-| 3 | [Ngày] | Review code Bài 7-12 | Đã hoàn thành |
-| 4 | [Ngày] | Tích hợp ML | Đã hoàn thành |
-| 5 | [Ngày] | Testing & Docs | Đã hoàn thành |
+| 1 | [DD/MM/YYYY] | Phân công công việc | Đã thống nhất phân công |
+| 2 | [DD/MM/YYYY] | Review code Bài 1-6 | Đã hoàn thành |
+| 3 | [DD/MM/YYYY] | Review code Bài 7-12 | Đã hoàn thành |
+| 4 | [DD/MM/YYYY] | Tích hợp ML | Đã hoàn thành |
+| 5 | [DD/MM/YYYY] | Testing & Docs | Đã hoàn thành |
+
+> **Hướng dẫn:** Điền ngày theo định dạng DD/MM/YYYY (ví dụ: 15/12/2024)
 
 ### 5.2. Khó khăn gặp phải và cách giải quyết
 

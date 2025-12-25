@@ -2,7 +2,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)]()
+![Status](https://img.shields.io/badge/Status-Complete-brightgreen.svg)
 
 ## 📋 Tài liệu Nộp bài
 
