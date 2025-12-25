@@ -1,9 +1,9 @@
 """
-Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12
-Comprehensive Image Processing Application - Exercises 1-12
+Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12 + Machine Learning
+Comprehensive Image Processing Application - Exercises 1-12 + ML
 
 Tác giả: Minhhieu-coder
-Tích hợp tất cả các chức năng từ Bài 1 đến Bài 12
+Tích hợp tất cả các chức năng từ Bài 1 đến Bài 12 và Machine Learning
 """
 
 import tkinter as tk
@@ -17,18 +17,20 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from image_processing import ImageProcessor
+from ml_processing import MLImageProcessor
 
 
 class ComprehensiveImageApp:
     """
-    Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-12
+    Ứng dụng xử lý ảnh tích hợp đầy đủ các bài tập 1-12 và Machine Learning
     
-    Comprehensive Image Processing Application integrating all exercises 1-12.
+    Comprehensive Image Processing Application integrating all exercises 1-12 and ML.
     Provides a unified GUI for all image processing operations including:
     - Basic conversions (grayscale, binary, channel split)
     - Contrast stretching and histogram processing
     - Noise removal and edge detection
     - Fourier transforms and frequency domain filtering (low-pass and high-pass)
+    - Machine Learning: K-Means segmentation, feature extraction, object detection
     """
     
     # Constants
@@ -37,7 +39,7 @@ class ComprehensiveImageApp:
     def __init__(self, root):
         """Khởi tạo ứng dụng"""
         self.root = root
-        self.root.title("Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12")
+        self.root.title("Ứng dụng Xử lý Ảnh Toàn diện - Bài 1-12 + ML")
         self.root.geometry("1600x900")
         
         # Biến lưu trữ ảnh
@@ -91,6 +93,9 @@ class ComprehensiveImageApp:
         
         # Bài 12: High-Pass Filters
         self.create_bai12_tab()
+        
+        # Machine Learning Tab
+        self.create_ml_tab()
         
         # Right panel - Display
         right_panel = ttk.Frame(main_frame)
@@ -365,6 +370,94 @@ class ComprehensiveImageApp:
         info_text = ("High-pass filters enhance edges and details.\n"
                     "Butterworth provides smoother transition,\n"
                     "reducing ringing artifacts vs. Ideal filter.")
+        ttk.Label(scrollable_frame, text=info_text, font=("Arial", 8), 
+                 foreground="gray").pack(pady=(10, 5))
+    
+    def create_ml_tab(self):
+        """Tạo tab cho Machine Learning"""
+        tab = ttk.Frame(self.notebook)
+        self.notebook.add(tab, text="🤖 ML")
+        
+        # Scrollable frame
+        canvas = tk.Canvas(tab)
+        scrollbar = ttk.Scrollbar(tab, orient="vertical", command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # ML 1: K-Means Segmentation
+        ttk.Label(scrollable_frame, text="ML 1: K-Means Segmentation", 
+                 font=("Arial", 10, "bold")).pack(pady=5)
+        
+        ttk.Label(scrollable_frame, text="Số cụm (K):").pack(pady=(5, 0))
+        self.kmeans_k = tk.IntVar(value=3)
+        kmeans_slider = ttk.Scale(scrollable_frame, from_=2, to=10, 
+                                  variable=self.kmeans_k, orient=tk.HORIZONTAL)
+        kmeans_slider.pack(fill=tk.X, padx=10, pady=2)
+        self.kmeans_k_label = ttk.Label(scrollable_frame, text="K: 3")
+        self.kmeans_k_label.pack()
+        self.kmeans_k.trace_add("write", self.update_kmeans_k_label)
+        
+        ttk.Button(scrollable_frame, text="K-Means Segmentation", 
+                  command=self.kmeans_segment, width=28).pack(pady=2)
+        
+        # ML 2: Otsu Thresholding
+        ttk.Label(scrollable_frame, text="ML 2: Otsu Thresholding", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Button(scrollable_frame, text="Otsu Auto Threshold", 
+                  command=self.otsu_threshold, width=28).pack(pady=2)
+        ttk.Button(scrollable_frame, text="Adaptive Threshold", 
+                  command=self.adaptive_threshold_ml, width=28).pack(pady=2)
+        
+        # ML 3: Edge Detection (ML version)
+        ttk.Label(scrollable_frame, text="ML 3: ML Edge Detection", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Button(scrollable_frame, text="Canny-like Edge", 
+                  command=self.ml_edge_detection, width=28).pack(pady=2)
+        
+        # ML 4: Feature Extraction
+        ttk.Label(scrollable_frame, text="ML 4: Feature Extraction", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Button(scrollable_frame, text="Extract Features", 
+                  command=self.extract_features, width=28).pack(pady=2)
+        
+        # ML 5: Object Detection
+        ttk.Label(scrollable_frame, text="ML 5: Object Detection", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Button(scrollable_frame, text="Detect Objects", 
+                  command=self.detect_objects, width=28).pack(pady=2)
+        
+        # ML 6: Morphological Operations
+        ttk.Label(scrollable_frame, text="ML 6: Morphology", 
+                 font=("Arial", 10, "bold")).pack(pady=(15, 5))
+        
+        ttk.Button(scrollable_frame, text="Erosion", 
+                  command=lambda: self.morphological_op('erosion'), width=28).pack(pady=2)
+        ttk.Button(scrollable_frame, text="Dilation", 
+                  command=lambda: self.morphological_op('dilation'), width=28).pack(pady=2)
+        ttk.Button(scrollable_frame, text="Opening", 
+                  command=lambda: self.morphological_op('opening'), width=28).pack(pady=2)
+        ttk.Button(scrollable_frame, text="Closing", 
+                  command=lambda: self.morphological_op('closing'), width=28).pack(pady=2)
+        
+        # Info label
+        info_text = ("Machine Learning cho Xử lý Ảnh:\n"
+                    "• K-Means: Phân đoạn ảnh thành các vùng\n"
+                    "• Otsu: Tự động tìm ngưỡng tối ưu\n"
+                    "• Feature: Trích xuất đặc trưng ảnh")
         ttk.Label(scrollable_frame, text=info_text, font=("Arial", 8), 
                  foreground="gray").pack(pady=(10, 5))
     
@@ -1004,6 +1097,199 @@ class ComprehensiveImageApp:
             self.processed_image = result
             self.display_image(result)
             self.status_label.config(text=f"Butterworth High-pass (D0={D0}, n={n})")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    # ===== Machine Learning Methods =====
+    
+    def update_kmeans_k_label(self, *args):
+        """Cập nhật label cho K-Means K"""
+        val = self.kmeans_k.get()
+        self.kmeans_k_label.config(text=f"K: {val}")
+    
+    def kmeans_segment(self):
+        """ML 1: K-Means image segmentation"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            k = self.kmeans_k.get()
+            result, centers = MLImageProcessor.kmeans_segmentation(self.processed_image, k)
+            self.processed_image = result
+            self.display_image(result)
+            
+            # Show info
+            self.info_text.delete(1.0, tk.END)
+            self.info_text.insert(tk.END, "=== K-MEANS SEGMENTATION ===\n\n")
+            self.info_text.insert(tk.END, f"Số cụm (K): {k}\n")
+            self.info_text.insert(tk.END, f"Cluster centers: {centers}\n\n")
+            self.info_text.insert(tk.END, "Mô tả:\n")
+            self.info_text.insert(tk.END, "K-Means phân đoạn ảnh thành K vùng\n")
+            self.info_text.insert(tk.END, "dựa trên độ sáng pixel.\n")
+            self.display_notebook.select(1)
+            
+            self.status_label.config(text=f"K-Means Segmentation (K={k})")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def otsu_threshold(self):
+        """ML 2: Otsu automatic thresholding"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            result, threshold = MLImageProcessor.otsu_threshold(self.processed_image)
+            self.processed_image = result
+            self.display_image(result)
+            
+            # Show info
+            self.info_text.delete(1.0, tk.END)
+            self.info_text.insert(tk.END, "=== OTSU THRESHOLDING ===\n\n")
+            self.info_text.insert(tk.END, f"Ngưỡng tối ưu: {threshold}\n\n")
+            self.info_text.insert(tk.END, "Mô tả:\n")
+            self.info_text.insert(tk.END, "Otsu tự động tìm ngưỡng tối ưu\n")
+            self.info_text.insert(tk.END, "để phân chia foreground/background\n")
+            self.info_text.insert(tk.END, "bằng cách minimize within-class variance.\n")
+            self.display_notebook.select(1)
+            
+            self.status_label.config(text=f"Otsu Threshold = {threshold}")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def adaptive_threshold_ml(self):
+        """ML 2.2: Adaptive thresholding"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            result = MLImageProcessor.adaptive_threshold_ml(self.processed_image)
+            self.processed_image = result
+            self.display_image(result)
+            self.status_label.config(text="Adaptive Threshold (ML)")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def ml_edge_detection(self):
+        """ML 3: ML-based edge detection"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            result = MLImageProcessor.detect_edges_ml(self.processed_image)
+            self.processed_image = result
+            self.display_image(result)
+            self.status_label.config(text="ML Edge Detection (Canny-like)")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def extract_features(self):
+        """ML 4: Extract image features"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            # Extract all feature types
+            hist_features = MLImageProcessor.extract_histogram_features(self.processed_image)
+            texture_features = MLImageProcessor.extract_texture_features(self.processed_image)
+            stat_features = MLImageProcessor.extract_statistical_features(self.processed_image)
+            combined = MLImageProcessor.extract_combined_features(self.processed_image)
+            
+            # Show info
+            self.info_text.delete(1.0, tk.END)
+            self.info_text.insert(tk.END, "=== FEATURE EXTRACTION ===\n\n")
+            
+            self.info_text.insert(tk.END, "--- Histogram Features (16 bins) ---\n")
+            self.info_text.insert(tk.END, f"Shape: {hist_features.shape}\n")
+            self.info_text.insert(tk.END, f"Values: {np.round(hist_features, 4)}\n\n")
+            
+            self.info_text.insert(tk.END, "--- Texture Features ---\n")
+            self.info_text.insert(tk.END, f"Shape: {texture_features.shape}\n")
+            self.info_text.insert(tk.END, f"Mean gradient: {texture_features[0]:.4f}\n")
+            self.info_text.insert(tk.END, f"Std gradient: {texture_features[1]:.4f}\n")
+            self.info_text.insert(tk.END, f"Max gradient: {texture_features[2]:.4f}\n\n")
+            
+            self.info_text.insert(tk.END, "--- Statistical Features ---\n")
+            self.info_text.insert(tk.END, f"Shape: {stat_features.shape}\n")
+            self.info_text.insert(tk.END, f"Mean: {stat_features[0]:.4f}\n")
+            self.info_text.insert(tk.END, f"Std: {stat_features[1]:.4f}\n")
+            self.info_text.insert(tk.END, f"Contrast: {stat_features[2]:.4f}\n")
+            self.info_text.insert(tk.END, f"Skewness: {stat_features[4]:.4f}\n")
+            self.info_text.insert(tk.END, f"Kurtosis: {stat_features[5]:.4f}\n")
+            self.info_text.insert(tk.END, f"Energy: {stat_features[6]:.4f}\n")
+            self.info_text.insert(tk.END, f"Entropy: {stat_features[7]:.4f}\n\n")
+            
+            self.info_text.insert(tk.END, "--- Combined Feature Vector ---\n")
+            self.info_text.insert(tk.END, f"Total features: {combined.shape[0]}\n")
+            
+            self.display_notebook.select(1)
+            self.status_label.config(text="Extracted image features")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def detect_objects(self):
+        """ML 5: Simple object detection"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            # First apply Otsu to get binary image
+            binary, threshold = MLImageProcessor.otsu_threshold(self.processed_image)
+            
+            # Detect objects
+            labels, objects = MLImageProcessor.simple_object_detection(binary, min_area=50)
+            
+            # Create visualization
+            if len(self.processed_image.shape) == 2:
+                vis = cv2.cvtColor(self.processed_image, cv2.COLOR_GRAY2BGR)
+            else:
+                vis = self.processed_image.copy()
+            
+            # Draw bounding boxes
+            for obj in objects:
+                x, y = obj['x'], obj['y']
+                w, h = obj['width'], obj['height']
+                cx, cy = int(obj['centroid_x']), int(obj['centroid_y'])
+                
+                cv2.rectangle(vis, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                cv2.circle(vis, (cx, cy), 3, (255, 0, 0), -1)
+            
+            self.display_image(vis)
+            
+            # Show info
+            self.info_text.delete(1.0, tk.END)
+            self.info_text.insert(tk.END, "=== OBJECT DETECTION ===\n\n")
+            self.info_text.insert(tk.END, f"Otsu threshold used: {threshold}\n")
+            self.info_text.insert(tk.END, f"Objects detected: {len(objects)}\n\n")
+            
+            for i, obj in enumerate(objects):
+                self.info_text.insert(tk.END, f"--- Object {i+1} ---\n")
+                self.info_text.insert(tk.END, f"  Area: {obj['area']} pixels\n")
+                self.info_text.insert(tk.END, f"  Position: ({obj['x']}, {obj['y']})\n")
+                self.info_text.insert(tk.END, f"  Size: {obj['width']} x {obj['height']}\n")
+                self.info_text.insert(tk.END, f"  Centroid: ({obj['centroid_x']:.1f}, {obj['centroid_y']:.1f})\n\n")
+            
+            self.display_notebook.select(1)
+            self.status_label.config(text=f"Detected {len(objects)} objects")
+        except Exception as e:
+            messagebox.showerror("Lỗi", str(e))
+    
+    def morphological_op(self, operation: str):
+        """ML 6: Morphological operations"""
+        if self.processed_image is None:
+            messagebox.showwarning("Cảnh báo", "Chưa có ảnh!")
+            return
+        
+        try:
+            result = MLImageProcessor.morphological_operations(self.processed_image, operation)
+            self.processed_image = result
+            self.display_image(result)
+            self.status_label.config(text=f"Morphology: {operation}")
         except Exception as e:
             messagebox.showerror("Lỗi", str(e))
 

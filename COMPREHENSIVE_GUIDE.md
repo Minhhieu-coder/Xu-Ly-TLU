@@ -2,22 +2,24 @@
 
 ## Giới thiệu
 
-Ứng dụng Xử lý Ảnh Toàn diện tích hợp đầy đủ các chức năng từ Bài tập 1 đến Bài tập 11, bao gồm:
+Ứng dụng Xử lý Ảnh Toàn diện tích hợp đầy đủ các chức năng từ Bài tập 1 đến Bài tập 12 và Machine Learning, bao gồm:
 - **Bài 1-3**: Chuyển đổi ảnh cơ bản (xám, nhị phân, tách kênh màu)
 - **Bài 4-6**: Kéo dãn tương phản và xử lý histogram
 - **Bài 7-9**: Lọc nhiễu, dò biên và làm nét
 - **Bài 10-11**: Biến đổi Fourier và lọc tần số
+- **Bài 12**: Bộ lọc thông cao (High-Pass Filters)
+- **Machine Learning**: Phân đoạn K-Means, trích xuất đặc trưng, phát hiện đối tượng
 
 ## Cài đặt
 
 ### Yêu cầu hệ thống
 - Python 3.8 trở lên
-- Các thư viện: numpy, opencv-python, pillow, matplotlib, scipy
+- Các thư viện: numpy, opencv-python, pillow, matplotlib, scipy, scikit-learn
 
 ### Cài đặt dependencies
 
 ```bash
-pip install numpy opencv-python pillow matplotlib scipy
+pip install numpy opencv-python pillow matplotlib scipy scikit-learn
 ```
 
 ## Khởi động Ứng dụng
@@ -32,11 +34,13 @@ Giao diện được chia thành 3 phần chính:
 
 ### 1. Panel Trái - Điều khiển
 - **File Operations**: Tải ảnh, lưu ảnh, hiển thị ảnh gốc
-- **Notebook với 4 tabs**:
+- **Notebook với 6 tabs**:
   - **Bài 1-3: Cơ bản** - Chuyển đổi ảnh cơ bản
   - **Bài 4-6: Contrast** - Xử lý tương phản và histogram
   - **Bài 7-9: Filters** - Lọc nhiễu và dò biên
   - **Bài 10-11: Fourier** - Biến đổi Fourier và lọc tần số
+  - **Bài 12: High-Pass** - Bộ lọc thông cao
+  - **🤖 ML** - Machine Learning
 
 ### 2. Panel Phải - Hiển thị
 - **Tab "Hiển thị Ảnh"**: Canvas hiển thị ảnh
@@ -206,6 +210,70 @@ Hiển thị trạng thái và thông tin về thao tác đang thực hiện
 - **Ideal**: Cắt sắc nét, có thể gây ringing artifacts
 - **Gaussian**: Mượt mà, tự nhiên hơn, ít artifacts
 
+### Machine Learning 🤖
+
+Tab Machine Learning cung cấp các công cụ học máy cho xử lý ảnh:
+
+#### ML 1: K-Means Segmentation
+- Điều chỉnh số cụm K (2-10)
+- Click "K-Means Segmentation"
+- Phân đoạn ảnh thành K vùng dựa trên độ sáng pixel
+- Hữu ích cho phân tách foreground/background
+
+**Hiệu ứng:**
+- K nhỏ (2-3): Phân đoạn thô, các vùng lớn
+- K trung bình (4-6): Phân đoạn chi tiết hơn
+- K lớn (7-10): Phân đoạn rất chi tiết
+
+#### ML 2: Otsu Thresholding
+- Click "Otsu Auto Threshold"
+- Tự động tìm ngưỡng tối ưu để phân chia foreground/background
+- Sử dụng phương pháp minimize within-class variance
+
+**Khi nào dùng:**
+- Ảnh có 2 vùng rõ ràng (foreground/background)
+- Cần chuyển sang ảnh nhị phân tự động
+
+#### ML 3: Adaptive Thresholding
+- Click "Adaptive Threshold"
+- Sử dụng ngưỡng cục bộ thay vì toàn cục
+- Tốt cho ảnh có độ sáng không đều
+
+#### ML 4: ML Edge Detection
+- Click "Canny-like Edge"
+- Phát hiện cạnh kiểu Canny với:
+  - Gaussian smoothing
+  - Non-maximum suppression
+  - Double thresholding + Hysteresis
+
+#### ML 5: Feature Extraction
+- Click "Extract Features"
+- Trích xuất các đặc trưng từ ảnh:
+  - **Histogram features**: Phân bố độ sáng (16 bins)
+  - **Texture features**: Gradient magnitude, direction
+  - **Statistical features**: Mean, std, skewness, kurtosis, energy, entropy
+
+**Ứng dụng:**
+- Chuẩn bị dữ liệu cho phân loại ảnh
+- So sánh các ảnh
+- Nhận dạng pattern
+
+#### ML 6: Object Detection
+- Click "Detect Objects"
+- Tự động phát hiện và đếm đối tượng trong ảnh
+- Hiển thị bounding box và centroid
+
+**Thông tin trả về:**
+- Số đối tượng phát hiện
+- Diện tích, vị trí, kích thước mỗi đối tượng
+- Tọa độ centroid
+
+#### ML 7: Morphological Operations
+- **Erosion**: Ăn mòn ảnh, loại bỏ nhiễu nhỏ
+- **Dilation**: Giãn nở ảnh, lấp đầy lỗ trống
+- **Opening**: Erosion + Dilation (loại nhiễu)
+- **Closing**: Dilation + Erosion (lấp lỗ)
+
 ## Workflow Đề nghị
 
 ### 1. Xử lý Ảnh Tối
@@ -233,6 +301,21 @@ Hiển thị trạng thái và thông tin về thao tác đang thực hiện
 1. Tải ảnh
 2. Bài 10: Xem FFT để hiểu cấu trúc tần số
 3. Bài 11: Áp dụng Gaussian Low-pass để làm mờ tự nhiên
+
+### 6. Phân đoạn ML 🤖
+1. Tải ảnh
+2. ML Tab: K-Means Segmentation (K=4)
+3. Kiểm tra các vùng được phân đoạn
+
+### 7. Phát hiện đối tượng 🤖
+1. Tải ảnh có các đối tượng rõ ràng
+2. ML Tab: Detect Objects
+3. Xem thông tin đối tượng trong tab Info
+
+### 8. Trích xuất đặc trưng 🤖
+1. Tải ảnh
+2. ML Tab: Extract Features
+3. Xem các đặc trưng histogram, texture, thống kê
 
 ## Tips & Tricks
 
